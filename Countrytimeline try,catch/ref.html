@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Date and Time</title>
+</head>
+<body>
+    <h1>Current Date and Time</h1>
+    <p id="datetime"></p>
+
+    <script>
+        async function fetchDateTime() {
+            try {
+                // Make a request to the WorldTimeAPI
+                const response = await fetch('http://worldtimeapi.org/api/timezone/Asia/Kolkata');
+                
+                // Check if the response is successful (status code 200)
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch data. Status: ${response.status}`);
+                }
+
+                // Parse the JSON data from the response
+                const data = await response.json();
+
+                // Extract the date and time information
+                const datetime = data.datetime;
+
+                // Display the date and time on the webpage
+                const datetimeElement = document.getElementById('datetime');
+                datetimeElement.textContent = `Current Date and Time: ${datetime}`;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                const datetimeElement = document.getElementById('datetime');
+                datetimeElement.textContent = 'Failed to fetch date and time data.';
+            }
+        }
+
+        // Call the fetchDateTime function when the page loads
+        fetchDateTime();
+    </script>
+</body>
+</html>
